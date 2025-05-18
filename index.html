@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Comfortaa', cursive, sans-serif;
+    background: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scene {
+    position: relative;
+    width: 460px;
+    min-height: 620px;
+    background: #d7f0d9;
+    border-radius: 30px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    padding: 40px 30px 50px 30px;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: #2b5329;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 2px #a4d06f;
+  }
+
+  label {
+    color: #3a6b35;
+    font-size: 15px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 2px solid #89b362;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus {
+    border-color: #5a8b28;
+  }
+
+  textarea {
+    width: 100%;
+    height: 140px;
+    border-radius: 18px;
+    border: 2px solid #89b362;
+    font-size: 16px;
+    padding: 14px;
+    resize: none;
+    font-family: 'Comfortaa', cursive, sans-serif;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  textarea:focus {
+    border-color: #5a8b28;
+  }
+
+  button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(90deg, #7ec850, #4a7f23);
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(74,127,35,0.6);
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(90deg, #5a8b28, #3b5e18);
+  }
+
+  /* --- Trang trí thiên nhiên --- */
+  .tree {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: 60px;
+    height: 100px;
+    background: linear-gradient(to top, #387d3b, #70b252);
+    border-radius: 30px 30px 10px 10px;
+    box-shadow: inset -8px 0 10px #2e6231;
+  }
+  .tree::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 70px;
+    background: linear-gradient(to top, #63b549, #a3d76b);
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    box-shadow: 0 5px 15px rgba(95, 163, 65, 0.4);
+  }
+
+  .cloud {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    width: 130px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 30px 0 white, 60px 10px white, 90px 0 white;
+    opacity: 0.85;
+    animation: drift 30s linear infinite;
+  }
+
+  @keyframes drift {
+    0% { right: 35px; }
+    100% { right: 400px; }
+  }
+
+  .bush {
+    position: absolute;
+    bottom: 15px;
+    right: 25px;
+    width: 70px;
+    height: 40px;
+    background: linear-gradient(to top, #4a7f23, #7ec850);
+    border-radius: 50% / 100%;
+    box-shadow: inset -8px 0 12px #3b5e18;
+  }
+
+  .rabbit {
+    position: absolute;
+    bottom: 70px;
+    left: 140px;
+    width: 60px;
+    height: 60px;
+    background: #f5f5f5;
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    box-shadow: inset 0 5px 10px #dcdcdc;
+  }
+  .rabbit::before {
+    content: "";
+    position: absolute;
+    top: 10px; left: 10px;
+    width: 12px; height: 30px;
+    background: #f5f5f5;
+    border-radius: 60% 60% 30% 30% / 90% 90% 40% 40%;
+    transform: rotate(-15deg);
+  }
+  .rabbit::after {
+    content: "";
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 12px; height: 30px;
+    background: #f5f5f5;
+    border-radius: 60% 60% 30% 30% / 90% 90% 40% 40%;
+    transform: rotate(15deg);
+  }
+
+</style>
+</head>
+<body>
+  <div class="scene">
+
+    <h1>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</h1>
+
+    <label for="fileName">Tên file lưu văn bản:</label>
+    <input type="text" id="fileName" placeholder="Nhập tên file (không có đuôi)..." />
+
+    <label for="inputText">Nhập văn bản:</label>
+    <textarea id="inputText" placeholder="Nhập văn bản vào đây..."></textarea>
+
+    <button id="ttsBtn">Chuyển văn bản thành giọng nói</button>
+
+    <!-- Trang trí thiên nhiên -->
+    <div class="tree"></div>
+    <div class="cloud"></div>
+    <div class="bush"></div>
+    <div class="rabbit"></div>
+
+  </div>
+
+<script>
+  const ttsBtn = document.getElementById('ttsBtn');
+  const inputText = document.getElementById('inputText');
+  const fileNameInput = document.getElementById('fileName');
+
+  ttsBtn.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    const fileName = fileNameInput.value.trim();
+
+    if (!fileName) {
+      alert('Vui lòng nhập tên file lưu văn bản!');
+      return;
+    }
+    if (!text) {
+      alert('Vui lòng nhập văn bản để chuyển thành giọng nói!');
+      return;
+    }
+
+    // Phát giọng nói
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'vi-VN';
+    utterance.rate = 1;
+    speechSynthesis.speak(utterance);
+
+    // Tạm thời chỉ log tên file và text
+    console.log('Tên file lưu:', fileName);
+    console.log('Văn bản:', text);
+
+    // TODO: Gửi dữ liệu lên server backend nếu có
+  });
+</script>
+</body>
+</html>
