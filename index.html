@@ -279,8 +279,8 @@
   </style>
 </head>
 <body>
-  <audio loop>
-    <source src="https://github.com/nhatdang-0/chuyen-van-ban-thanh-giong-noi/blob/main/nhacnen.mp3" type="audio/mpeg" />
+  <audio id="backgroundAudio" loop>
+    <source src="https://raw.githubusercontent.com/nhatdang-0/chuyen-van-ban-thanh-giong-noi/main/nhacnen.mp3" type="audio/mpeg" />
   </audio>
 
   <div class="top-left-controls">
@@ -329,14 +329,13 @@
   </div>
 
   <script>
-    const audio = new Audio('https://github.com/nhatdang-0/chuyen-van-ban-thanh-giong-noi/blob/main/nhacnen.mp3');
-    audio.loop = true;
-    audio.volume = document.getElementById('volumeControl').value;
-
+    const audio = document.getElementById('backgroundAudio'); // lấy thẻ audio trong HTML
     const playPauseBtn = document.getElementById('playPauseBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
     const volumeControl = document.getElementById('volumeControl');
+
+    audio.volume = volumeControl.value;
 
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
