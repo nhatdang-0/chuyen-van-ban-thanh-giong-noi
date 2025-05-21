@@ -16,10 +16,7 @@
       font-family: 'Comfortaa', cursive, sans-serif;
       background: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      overflow-x: hidden;
     }
 
    .scene {
@@ -260,7 +257,44 @@
         width: 80px;
       }
     }
-    
+
+    .scene-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transform-origin: top center;
+    }
+
+    @media (max-width: 1200px) {
+      .scene-wrapper {
+        transform: scale(0.95);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .scene-wrapper {
+        transform: scale(0.9);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .scene-wrapper {
+        transform: scale(0.8);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .scene-wrapper {
+        transform: scale(0.75);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .scene-wrapper {
+        transform: scale(0.7);
+      }
+    } 
   </style>
 </head>
 <body>
@@ -276,46 +310,48 @@
     <input type="range" min="0" max="1" step="0.01" value="1" id="volumeControl" title="Âm lượng" />
   </div>
 
-  <div class="scene">
-    <h1>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</h1>
+  <div class="scene-wrapper">  
+    <div class="scene">
+      <h1>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</h1>
 
-    <label for="fileName">Tên file:</label>
-    <input type="text" id="fileName" placeholder="Nhập tên file (không có đuôi)..." />
+      <label for="fileName">Tên file:</label>
+      <input type="text" id="fileName" placeholder="Nhập tên file (không có đuôi)..." />
 
-    <label for="inputText">Nhập văn bản:</label>
-    <textarea id="inputText" placeholder="Nhập văn bản vào đây..."></textarea>
+      <label for="inputText">Nhập văn bản:</label>
+      <textarea id="inputText" placeholder="Nhập văn bản vào đây..."></textarea>
 
-    <button id="ttsBtn">Chuyển văn bản thành giọng nói</button>
-    <button id="downloadBtn">Tải âm thanh</button>
+      <button id="ttsBtn">Chuyển văn bản thành giọng nói</button>
+      <button id="downloadBtn">Tải âm thanh</button>
 
-    <div class="corner-links">
-      <a href="https://nhatdang-0.github.io" target="_blank" aria-label="Trang Chủ">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="white" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        Trang Chủ
-      </a>
-      <button id="shareBtn" aria-label="Chia sẻ">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="white" viewBox="0 0 24 24">
-          <circle cx="18" cy="5" r="3"/>
-          <circle cx="6" cy="12" r="3"/>
-          <circle cx="18" cy="19" r="3"/>
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="white" stroke-width="2"/>
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="white" stroke-width="2"/>
-        </svg>
-        Chia sẻ
-      </button>
+      <div class="corner-links">
+        <a href="https://nhatdang-0.github.io" target="_blank" aria-label="Trang Chủ">
+          <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="white" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Trang Chủ
+        </a>
+        <button id="shareBtn" aria-label="Chia sẻ">
+          <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="white" viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="white" stroke-width="2"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="white" stroke-width="2"/>
+          </svg>
+          Chia sẻ
+        </button>
+      </div>
+
+      <div class="tree" style="left: 20px;"></div>
+      <div class="tree" style="right: 30px;"></div>
+      <div class="bush" style="right: 80px;"></div>
+      <div class="bush" style="left: 60px;"></div>
+      <div class="rabbit" style="left: 140px;"></div>
+      <div class="rabbit" style="right: 120px;"></div>
+      <div class="cloud"></div>
+
+      <footer class="footer">© 2025 Nhật Đăng. All rights reserved.</footer>
     </div>
-
-    <div class="tree" style="left: 20px;"></div>
-    <div class="tree" style="right: 30px;"></div>
-    <div class="bush" style="right: 80px;"></div>
-    <div class="bush" style="left: 60px;"></div>
-    <div class="rabbit" style="left: 140px;"></div>
-    <div class="rabbit" style="right: 120px;"></div>
-    <div class="cloud"></div>
-
-    <footer class="footer">© 2025 Nhật Đăng. All rights reserved.</footer>
   </div>
-
+  
   <script>
     const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     audio.loop = true;
