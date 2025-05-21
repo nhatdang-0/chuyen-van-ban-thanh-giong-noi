@@ -279,8 +279,8 @@
   </style>
 </head>
 <body>
-  <audio id="backgroundAudio" loop>
-    <source src="https://raw.githubusercontent.com/nhatdang-0/chuyen-van-ban-thanh-giong-noi/main/nhacnen.mp3" type="audio/mpeg" />
+  <audio id="backgroundAudio" autoplay loop>
+    <source src="https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/nhacnen.mp3" type="audio/mpeg" />
   </audio>
 
   <div class="top-left-controls">
@@ -328,40 +328,59 @@
     </div>
   </div>
 
-  <script>
-    const audio = document.getElementById('backgroundAudio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
-    const volumeControl = document.getElementById('volumeControl');
+<script>
+  const audio = document.getElementById('backgroundAudio');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const volumeControl = document.getElementById('volumeControl');
 
-    audio.volume = parseFloat(volumeControl.value);
+  audio.volume = volumeControl.value;
 
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
+  // Gán sự kiện play/pause cho nút
+  playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+    } else {
+      audio.pause();
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+    }
+  });
+
+  // Điều chỉnh âm lượng
+  volumeControl.addEventListener('input', () => {
+    audio.volume = volumeControl.value;
+  });
+
+  // Cho phép phát nhạc sau tương tác đầu tiên
+  document.addEventListener('DOMContentLoaded', () => {
+    const enableAudio = () => {
+      audio.play().then(() => {
         playIcon.style.display = 'none';
         pauseIcon.style.display = 'block';
-      } else {
-        audio.pause();
-        playIcon.style.display = 'block';
-        pauseIcon.style.display = 'none';
-      } 
-    });
-
-    volumeControl.addEventListener('input', () => {
-      audio.volume = parseFloat(volumeControl.value);
-    });
-    
-    const shareBtn = document.getElementById('shareBtn');
-    shareBtn.addEventListener('click', () => {
-      const text = "Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng thuộc ND Co., Ltd: https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/";
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!");
       }).catch(() => {
-        alert("Không thể sao chép. Trình duyệt không hỗ trợ.");
+        // Trình duyệt từ chối autoplay, không cần xử lý gì thêm
       });
+      document.removeEventListener('click', enableAudio);
+      document.removeEventListener('keydown', enableAudio);
+    };
+    document.addEventListener('click', enableAudio);
+    document.addEventListener('keydown', enableAudio);
+  });
+
+  // Nút chia sẻ
+  const shareBtn = document.getElementById('shareBtn');
+  shareBtn.addEventListener('click', () => {
+    const text = "Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng thuộc ND Co., Ltd: https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/";
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!");
+    }).catch(() => {
+      alert("Không thể sao chép. Trình duyệt không hỗ trợ.");
     });
-  </script>
+  });
+</script>
 </body>
 </html>
