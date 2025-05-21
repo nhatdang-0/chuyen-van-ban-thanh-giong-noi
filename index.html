@@ -267,8 +267,13 @@
     }
 
     @media (max-width: 480px) {
+      .scene-wrapper {
+        padding: 0 10px; /* tạo khoảng cách trái phải */
+        transform: scale(1) !important; /* reset scale nhỏ lại */
+      }
       .scene {
         max-width: 90vw;
+        margin: 0 auto; /* căn giữa */
       }
     }
   </style>
