@@ -16,21 +16,21 @@
       font-family: 'Comfortaa', cursive, sans-serif;
       background: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
       min-height: 100vh;
-      overflow-y: auto;
       display: flex;
       justify-content: center;
-      align-items: start;
+      align-items: center;
+      padding: 20px;
     }
 
-    .scene {
+   .scene {
       position: relative;
-      width: 460px;
-      min-height: 700px;
+      width: 100%;
+      max-width: 480px;
       background: #d7f0d9;
       border-radius: 30px;
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-      padding: 40px 30px 100px 30px;
-      margin: 40px 0 100px;
+      padding: 5vw 6vw 100px 6vw;
+      margin: auto;
     }
 
     h1 {
@@ -231,6 +231,36 @@
       user-select: none;
       margin-top: 40px;
     }
+
+    @media (max-width: 480px) {
+      .scene {
+        padding: 20px 20px 80px 20px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      button {
+        font-size: 13px;
+        padding: 10px 12px;
+      }
+
+      input[type="text"], textarea {
+        font-size: 15px;
+      }
+
+     .corner-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      #volumeControl {
+        width: 80px;
+      }
+    }
+    
   </style>
 </head>
 <body>
