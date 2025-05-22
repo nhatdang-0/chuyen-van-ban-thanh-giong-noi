@@ -79,8 +79,7 @@
     }
 
     input[type="text"],
-    textarea,
-    select {
+    textarea {
       width: 100%;
       padding: 12px 14px;
       border-radius: 18px;
@@ -97,8 +96,7 @@
     }
 
     input:focus,
-    textarea:focus,
-    select:focus {
+    textarea:focus {
       border-color: #5a8b28;
     }
 
@@ -284,7 +282,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(247, 143, 179, 0.9);
+      background: rgba(247, 143, 179, 0.9); /* màu hồng pastel của trang web có độ trong suốt */
       padding: 30px 40px;
       border-radius: 20px;
       font-size: 18px;
@@ -299,9 +297,28 @@
       transition: opacity 0.5s ease;
     }
 
-    /* Style cho select giọng đọc */
-    #voiceSelect {
-      margin-top: 8px;
+    <div id="copyMessage">
+      Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!
+    </div>
+
+    #copyMessage {
+      position: fixed;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(106, 137, 204, 0.9); /* màu xanh nhẹ khác biệt với welcome */
+      padding: 20px 30px;
+      border-radius: 18px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      font-family: 'Comfortaa', cursive, sans-serif;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 99999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
   </style>
 </head>
@@ -327,11 +344,6 @@
 
       <label for="inputText">Nhập văn bản:</label>
       <textarea id="inputText" placeholder="Nhập văn bản vào đây..."></textarea>
-
-      <label for="voiceSelect">Chọn giọng đọc:</label>
-      <select id="voiceSelect" aria-label="Chọn giọng đọc">
-        <!-- Các giọng sẽ được JS tự thêm vào -->
-      </select>
 
       <button id="ttsBtn">Chuyển văn bản thành giọng nói</button>
       <button id="downloadBtn">Tải âm thanh</button>
@@ -369,6 +381,23 @@
 
   audio.volume = volumeControl.value;
 
+  // Xử lý chuyển văn bản thành giọng nói
+  const ttsBtn = document.getElementById('ttsBtn');
+  const inputText = document.getElementById('inputText');
+
+  ttsBtn.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    if (!text) {
+      alert("Vui lòng nhập văn bản trước khi chuyển đổi.");
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'vi-VN'; // Ngôn ngữ tiếng Việt
+    speechSynthesis.speak(utterance);
+  });
+
+  // Gán sự kiện play/pause cho nút
   playPauseBtn.addEventListener('click', () => {
     if (audio.paused) {
       audio.play();
@@ -381,17 +410,19 @@
     }
   });
 
+  // Điều chỉnh âm lượng
   volumeControl.addEventListener('input', () => {
     audio.volume = volumeControl.value;
   });
 
+  // Cho phép phát nhạc sau tương tác đầu tiên
   document.addEventListener('DOMContentLoaded', () => {
     const enableAudio = () => {
       audio.play().then(() => {
         playIcon.style.display = 'none';
         pauseIcon.style.display = 'block';
       }).catch(() => {
-        // Trình duyệt từ chối autoplay
+        // Trình duyệt từ chối autoplay, không cần xử lý gì thêm
       });
       document.removeEventListener('click', enableAudio);
       document.removeEventListener('keydown', enableAudio);
@@ -400,16 +431,21 @@
     document.addEventListener('keydown', enableAudio);
   });
 
-  const shareBtn = document.getElementById('shareBtn');
+  // Nút chia sẻ
   shareBtn.addEventListener('click', () => {
     const text = "Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng thuộc ND Co., Ltd: https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/";
     navigator.clipboard.writeText(text).then(() => {
-      alert("Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!");
+      const copyMsg = document.getElementById('copyMessage');
+      copyMsg.style.opacity = '1';
+      setTimeout(() => {
+        copyMsg.style.opacity = '0';
+      }, 3000);
     }).catch(() => {
       alert("Không thể sao chép. Trình duyệt không hỗ trợ.");
     });
   });
 
+  // Hiển thị thông báo chào mừng 3 giây
   window.addEventListener('load', () => {
     const welcome = document.getElementById('welcomeMessage');
     welcome.style.opacity = '1';
@@ -418,91 +454,10 @@
       welcome.style.opacity = '0';
     }, 5000);
   });
-
-  // --- PHẦN CHÍNH: Text-to-Speech + Giọng đọc ---
-
-  const ttsBtn = document.getElementById('ttsBtn');
-  const inputText = document.getElementById('inputText');
-  const voiceSelect = document.getElementById('voiceSelect');
-
-  let synth = window.speechSynthesis;
-  let voices = [];
-
-  function populateVoiceList() {
-    voices = synth.getVoices();
-
-    // Xóa hết options cũ
-    voiceSelect.innerHTML = '';
-
-    // Thêm các giọng có hỗ trợ tiếng Việt trước
-    let viVoices = voices.filter(voice => voice.lang.startsWith('vi'));
-    if (viVoices.length === 0) viVoices = voices; // Nếu không có giọng việt thì hiển thị tất cả
-
-    viVoices.forEach((voice, i) => {
-      const option = document.createElement('option');
-      option.textContent = `${voice.name} (${voice.lang})`;
-      option.value = i;
-      voiceSelect.appendChild(option);
-    });
-
-    // Nếu có giọng việt thì chọn mặc định giọng đầu tiên
-    if (viVoices.length > 0) {
-      voiceSelect.selectedIndex = 0;
-    }
-  }
-
-  populateVoiceList();
-
-  if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoiceList;
-  }
-
-  ttsBtn.addEventListener('click', () => {
-    if (!inputText.value.trim()) {
-      alert("Vui lòng nhập văn bản để chuyển đổi.");
-      inputText.focus();
-      return;
-    }
-
-    if (synth.speaking) {
-      synth.cancel();
-    }
-
-    let utterance = new SpeechSynthesisUtterance(inputText.value);
-
-    const selectedIndex = voiceSelect.selectedIndex;
-    if (voices.length > 0 && selectedIndex >= 0 && selectedIndex < voices.length) {
-      utterance.voice = voices[selectedIndex];
-    }
-
-    utterance.lang = utterance.voice?.lang || 'vi-VN';
-    utterance.rate = 1; // tốc độ nói
-    utterance.pitch = 1; // cao độ
-
-    utterance.onstart = () => {
-      ttsBtn.disabled = true;
-      ttsBtn.textContent = "Đang phát...";
-    };
-
-    utterance.onend = () => {
-      ttsBtn.disabled = false;
-      ttsBtn.textContent = "Chuyển văn bản thành giọng nói";
-    };
-
-    utterance.onerror = (e) => {
-      ttsBtn.disabled = false;
-      ttsBtn.textContent = "Chuyển văn bản thành giọng nói";
-      alert("Lỗi khi phát giọng nói: " + e.error);
-    };
-
-    synth.speak(utterance);
-  });
-
-  // --- Tải âm thanh không hỗ trợ do speechSynthesis không có API xuất file âm thanh ---
-
-  // Nếu bạn muốn hỗ trợ tải âm thanh, cần dùng server backend hoặc dịch vụ Text-to-Speech API khác.
-
 </script>
-
+  <div id="welcomeMessage">
+    ND Co., Ltd cảm ơn bạn đã sử dụng trang web!<br />
+    Trang web có nhạc nền, bạn hãy mở lên và thưởng thức nhé.
+  </div>
 </body>
 </html>
